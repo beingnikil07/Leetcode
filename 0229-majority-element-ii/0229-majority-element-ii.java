@@ -30,7 +30,7 @@ class Solution {
             if(x==ans1){
                 count1++;
             }
-            if(x==ans2){
+            else if(x==ans2){
                 count2++;
             }
         }
