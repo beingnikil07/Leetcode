@@ -35,7 +35,7 @@ class Solution {
             }
         }
 
-        if(count1>nums.length/3 && !list.contains(ans1)){
+        if(count1>nums.length/3 ){
             list.add(ans1);
         }
         if(count2>nums.length/3 && !list.contains(ans2)){
