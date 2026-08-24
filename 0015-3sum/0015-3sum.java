@@ -4,7 +4,9 @@ class Solution {
         //sort the array
         Arrays.sort(nums);
 
-        for (int i = 0; i < nums.length; i++) {
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (nums[i] > 0)
+                break;
             // Skip duplicates for first element
             if (i > 0 && nums[i] == nums[i - 1])
                 continue;
@@ -32,7 +34,6 @@ class Solution {
                     right--;
             }
 
-            
         }
         return res;
     }
