@@ -1,26 +1,39 @@
 class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
-
-        Set<List<Integer>> set = new HashSet<>();
+        List<List<Integer>> res = new ArrayList<>();
+        //sort the array
         Arrays.sort(nums);
 
         for (int i = 0; i < nums.length; i++) {
-            Set<Integer> seen = new HashSet<>();
+            // Skip duplicates for first element
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
 
-            for (int j = i + 1; j < nums.length; j++) {
-                // Calculate third element needed
-                int third = -(nums[i] + nums[j]);
+            int left = i + 1, right = nums.length - 1;
 
-                if (seen.contains(third)) {
+            // Find pairs for current nums[i]
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
 
-                    List<Integer> triplet = Arrays.asList(nums[i], nums[j], third);
-                    set.add(triplet);
-                }
+                if (sum == 0) {
+                    res.add(Arrays.asList(nums[i], nums[left], nums[right]));
+                    left++;
+                    right--;
 
-                seen.add(nums[j]);
+                    // Skip duplicates for left
+                    while (left < right && nums[left] == nums[left - 1])
+                        left++;
+                    // Skip duplicates for right
+                    while (left < right && nums[right] == nums[right + 1])
+                        right--;
+                } else if (sum < 0)
+                    left++;
+                else
+                    right--;
             }
-        }
 
-        return new ArrayList<>(set);
+            
+        }
+        return res;
     }
 }
