@@ -1,30 +1,44 @@
 class Solution {
-    public List<List<Integer>> fourSum(int[] arr, int target) {
-        int n = arr.length;
-        Set<List<Integer>> set = new HashSet<>();
+    public List<List<Integer>> fourSum(int[] nums, int target) {
+        List<List<Integer>> ans = new ArrayList<>();
+        int n = nums.length;
+        //sort the array
+        Arrays.sort(nums);
 
+        //  First loop for first number
         for (int i = 0; i < n; i++) {
+            // Skip duplicates for first number
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
+
+            // Second loop for second number
             for (int j = i + 1; j < n; j++) {
-                // To store numbers between j and k
-                HashSet<Integer> seen = new HashSet<>();
+                // Skip duplicates for second number
+                if (j > i + 1 && nums[j] == nums[j - 1])
+                    continue;
+                // Step 4: Two pointers for remaining two numbers
+                int left = j + 1, right = n - 1;
+                while (left < right) {
+                    long sum = (long) nums[i] + nums[j] + nums[left] + nums[right];
+                    if (sum == target) {
+                        ans.add(Arrays.asList(nums[i], nums[j], nums[left], nums[right]));
 
-                for (int k = j + 1; k < n; k++) {
-                    // Find required fourth number
-                    long required = (long) target - arr[i] - arr[j] - arr[k];
+                        // Move left pointer skipping duplicates
+                        while (left < right && nums[left] == nums[left + 1])
+                            left++;
+                        // Move right pointer skipping duplicates
+                        while (left < right && nums[right] == nums[right - 1])
+                            right--;
 
-                    // If required number already seen → valid quadruplet
-                    if (required >= Integer.MIN_VALUE && required <= Integer.MAX_VALUE
-                            && seen.contains((int) required)) {
-                        List<Integer> temp = Arrays.asList(arr[i], arr[j], arr[k], (int) required);
-                        Collections.sort(temp);
-                        set.add(temp);
-                    }
-
-                    // Add current third number into set
-                    seen.add(arr[k]);
+                        left++;
+                        right--;
+                    } else if (sum < target)
+                        left++;
+                    else
+                        right--;
                 }
             }
         }
-        return new ArrayList<>(set);
+        return ans;
     }
 }
